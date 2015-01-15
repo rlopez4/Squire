@@ -352,3 +352,24 @@ Returns self (the Squire instance).
 Decreases by 1 the nesting level of any at-least-partially selected blocks which are part of a list.
 
 Returns self (the Squire instance).
+
+Added Functions
+---------------
+
+I added these functions for my usage. I don't think headers should be used in the main version since it is intended for editing emails.
+
+### makeHeader
+
+Wraps the selection in header tags such as `h1`
+
+This method takes one argument:
+
+* **headerNum**: The number of the header to make. (1 to 6)
+
+Returns self (the Squire instance).
+
+### removeHeader
+
+Removes any header tags
+
+Returns self (the Squire instance).

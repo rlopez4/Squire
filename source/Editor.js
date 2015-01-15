@@ -2339,6 +2339,43 @@ proto.setTextDirection = function ( direction ) {
     return this.focus();
 };
 
+var headers = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'];
+
+proto.makeHeader = function ( headerNum ) {
+  if ( !isNaN( headerNum ) && headerNum > 0 && headerNum < 7 ) {
+    this.modifyBlocks(function ( frag ) {
+      if ( frag.querySelectorAll( headers.toString() ).length === 0 ) {
+        return this.createElement(headers[ headerNum - 1 ], [
+          frag
+        ]);
+      }
+      else {
+        return frag; // don't re-apply a header
+      }
+    });
+  }
+  return this.focus();
+}
+
+proto.removeHeader = function () {
+  this.modifyBlocks( function ( frag ) {
+    var pres = frag.querySelectorAll( headers.toString() );
+    Array.prototype.filter.call( pres, function ( el ) {
+      for (var h in headers) {
+        if ( getNearest( el, headers[h] ) ) {
+          return true;
+        }
+      }
+      return false;
+    }).forEach( function ( el ) {
+      replaceWith( el, empty( el ) );
+    });
+
+    return frag;
+  });
+  return this.focus();
+}
+
 proto.increaseQuoteLevel = command( 'modifyBlocks', increaseBlockQuoteLevel );
 proto.decreaseQuoteLevel = command( 'modifyBlocks', decreaseBlockQuoteLevel );
 
