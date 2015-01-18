@@ -356,20 +356,20 @@ Returns self (the Squire instance).
 Added Functions
 ---------------
 
-I added these functions for my usage. I don't think headers should be used in the main version since it is intended for editing emails.
+I added these functions for my usage. I don't think headings should be used in the main version since it is intended for editing emails.
 
-### makeHeader
+### makeHeading
 
-Wraps the selection in header tags such as `h1`
+Wraps the selection in heading tags such as `<h1>`
 
 This method takes one argument:
 
-* **headerNum**: The number of the header to make. (1 to 6)
+* **heading**: The number of the heading to make. (1 to 6)
 
 Returns self (the Squire instance).
 
-### removeHeader
+### removeHeading
 
-Removes any header tags
+Removes any heading tags
 
 Returns self (the Squire instance).

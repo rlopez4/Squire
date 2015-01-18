@@ -2693,6 +2693,8 @@ var keys = {
     221: ']'
 };
 
+var headings = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'];
+
 var mapKeyTo = function ( method ) {
     return function ( self, event ) {
         event.preventDefault();
@@ -2913,6 +2915,15 @@ var keyHandlers = {
                 // Break blockquote
                 else if ( getNearest( current, 'BLOCKQUOTE' ) ) {
                     return self.modifyBlocks( decreaseBlockQuoteLevel, range );
+                }
+                // check the headings too
+                else {
+                  for ( var h in headings ) {
+                    if ( getNearest( current, headings[ h ] ) ) {
+                      replaceWith( current, empty( current ) );
+                      return self;
+                    }
+                  }
                 }
                 self.setSelection( range );
                 self._updatePath( range, true );
@@ -3412,30 +3423,28 @@ proto.setTextDirection = function ( direction ) {
     return this.focus();
 };
 
-var headers = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'];
-
-proto.makeHeader = function ( headerNum ) {
-  if ( !isNaN( headerNum ) && headerNum > 0 && headerNum < 7 ) {
+proto.makeHeading = function ( headingNum ) {
+  if ( !isNaN( headingNum ) && headingNum > 0 && headingNum < 7 ) {
     this.modifyBlocks(function ( frag ) {
-      if ( frag.querySelectorAll( headers.toString() ).length === 0 ) {
-        return this.createElement(headers[ headerNum - 1 ], [
+      if ( frag.querySelectorAll( headings.toString() ).length === 0 ) {
+        return this.createElement(headings[ headingNum - 1 ], [
           frag
         ]);
       }
       else {
-        return frag; // don't re-apply a header
+        return frag; // don't re-apply a heading
       }
     });
   }
   return this.focus();
 }
 
-proto.removeHeader = function () {
+proto.removeHeading = function () {
   this.modifyBlocks( function ( frag ) {
-    var pres = frag.querySelectorAll( headers.toString() );
+    var pres = frag.querySelectorAll( headings.toString() );
     Array.prototype.filter.call( pres, function ( el ) {
-      for (var h in headers) {
-        if ( getNearest( el, headers[h] ) ) {
+      for (var h in headings) {
+        if ( getNearest( el, headings[h] ) ) {
           return true;
         }
       }
